@@ -11,6 +11,27 @@ This project shows a practical implementation of mixins in NestJS to:
 - Add reusable properties to **entities** (timestamps like `createdAt`, `updatedAt`, `deletedAt`)
 - Add reusable methods to **services** (CRUD operations)
 
+## How Mixins Work
+
+```mermaid
+graph LR
+    A[BaseEntity] --> D[compose]
+    B[WithCreatedAt] --> D
+    C[WithUpdatedAt] --> D
+    E[WithDeletedAt] --> D
+    D --> F[User Entity]
+
+    F -.-> G[id: number]
+    F -.-> H[createdAt: Date]
+    F -.-> I[updatedAt: Date]
+    F -.-> J[deletedAt: Date]
+
+    style D fill:#4CAF50,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#2196F3,stroke:#333,stroke-width:2px,color:#fff
+```
+
+The `compose` function takes a base class and multiple mixins, then combines them into a single class with all properties and methods.
+
 ## Example Usage
 
 **Entity with timestamp mixins:**
