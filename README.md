@@ -1,8 +1,6 @@
 # NestJS Mixins Example
 
-A simple example project demonstrating how to use **TypeScript mixins** with NestJS for entities and services.
-
-Here I'm using `typeorm` with `sqlite`
+A simple example project to explore and demonstrate how to use **TypeScript mixins** with NestJS (at least for for entities).
 
 ## What is this?
 
@@ -49,3 +47,5 @@ pnpm run start:dev
 ```
 
 The API will be available at `http://localhost:3000`
+
+For demo I'm using `typeorm` with `sqlite`
