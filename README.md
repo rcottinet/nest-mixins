@@ -4,20 +4,31 @@ A simple example project to explore and demonstrate how to use **TypeScript mixi
 
 ## What is this?
 
-This project shows a practical implementation of mixins in NestJS to:
-
-- Add reusable properties to **entities** like `createdAt`, `updatedAt`, `deletedAt`
+This project shows a practical implementation of mixins in NestJS
 
 ## ⚠️ Important Note
 
 **TypeScript supports mixins** through a pattern that uses successive class extensions. Behind the scenes, the `compose` function creates a chain of classes that extend each other:
 
 ```typescript
-// Instead of a chain like:
+// Instead of group like:
+class Common extends BaseEntity {
+  @CreateDateColumn() createdAt: Date;
+  @UpdateDateColumn() updatedAt: Date;
+  @DeleteDateColumn() deletedAt: Date;
+}
+
+class User extends Common {}
+
+❌ not flexible, all or nothing
+
+// OR instead of a chain like:
 class Temp1 extends BaseEntity {}
 class Temp2 extends WithCreatedAt(Temp1) {}
 class Temp3 extends WithUpdatedAt(Temp2) {}
-class Final extends WithDeletedAt(Temp3) {}
+class User extends WithDeletedAt(Temp3) {}
+
+❌ verbose and hard to read
 
 // I'm trying to do this:
 export class User extends compose(
@@ -26,6 +37,8 @@ export class User extends compose(
   WithUpdatedAt,
   WithDeletedAt,
 ) {}
+
+✅ flexible and readable
 ```
 
 **This pattern has limitations with NestJS:**
