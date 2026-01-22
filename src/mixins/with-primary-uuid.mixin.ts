@@ -1,21 +1,10 @@
 import { PrimaryGeneratedColumn } from 'typeorm';
-import { Constructor, Mixin } from '../helpers/compose';
+import { Constructor } from '../helpers/compose';
 
-type WithPrimaryUUIDProps = {
-  id: string;
-};
-
-export const WithPrimaryUUID: Mixin<WithPrimaryUUIDProps> = <
-  TBase extends Constructor,
->(
-  Base: TBase,
-) => {
-  abstract class WithPrimaryUUIDMixin extends Base {
+export function WithPrimaryUUID<TBase extends Constructor>(Base: TBase) {
+  class WithPrimaryUUID extends Base {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   }
-
-  return WithPrimaryUUIDMixin as unknown as Constructor<
-    InstanceType<TBase> & WithPrimaryUUIDProps
-  >;
-};
+  return WithPrimaryUUID;
+}

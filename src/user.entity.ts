@@ -1,9 +1,10 @@
 import { compose } from './helpers/compose';
 import { BaseEntity, Entity } from 'typeorm';
-import { WithCreatedAt } from 'src/mixins/with-created-at.mixin';
-import { WithUpdatedAt } from 'src/mixins/with-updated-at.mixin';
-import { WithDeletedAt } from 'src/mixins/with-deleted-at.mixin';
+import { WithCreatedAt } from './mixins/with-created-at.mixin';
+import { WithUpdatedAt } from './mixins/with-updated-at.mixin';
+import { WithDeletedAt } from './mixins/with-deleted-at.mixin';
 import { WithPrimaryUUID } from './mixins/with-primary-uuid.mixin';
+import { WithAddress } from './mixins/with-address.mixin';
 
 @Entity()
 export class User extends compose(
@@ -12,4 +13,5 @@ export class User extends compose(
   WithCreatedAt,
   WithUpdatedAt,
   WithDeletedAt,
+  WithAddress,
 ) {}

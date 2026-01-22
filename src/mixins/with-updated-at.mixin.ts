@@ -1,21 +1,10 @@
 import { UpdateDateColumn } from 'typeorm';
-import { Constructor, Mixin } from '../helpers/compose';
+import { Constructor } from '../helpers/compose';
 
-type WithUpdatedAtProps = {
-  updatedAt: Date;
-};
-
-export const WithUpdatedAt: Mixin<WithUpdatedAtProps> = <
-  TBase extends Constructor,
->(
-  Base: TBase,
-) => {
-  abstract class WithUpdatedAtMixin extends Base {
+export function WithUpdatedAt<TBase extends Constructor>(Base: TBase) {
+  class WithUpdatedAt extends Base {
     @UpdateDateColumn()
     updatedAt!: Date;
   }
-
-  return WithUpdatedAtMixin as unknown as Constructor<
-    InstanceType<TBase> & WithUpdatedAtProps
-  >;
-};
+  return WithUpdatedAt;
+}

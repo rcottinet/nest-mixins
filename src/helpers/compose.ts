@@ -1,26 +1,93 @@
-export type Constructor<T = object> = abstract new (...args: any[]) => T;
+/**
+ * This code come from poppins utils : https://github.com/poppinss/utils
+ */
 
-export type Mixin<TAdded> = <TBase extends Constructor>(
-  base: TBase,
-) => Constructor<InstanceType<TBase> & TAdded>;
+export type Constructor = new (...args: any[]) => any;
 
-export function compose<
-  TBase extends Constructor,
-  TMixins extends readonly Mixin<any>[],
->(
-  Base: TBase,
-  ...mixins: TMixins
-): Constructor<
-  InstanceType<TBase> &
-    UnionToIntersection<
-      TMixins[number] extends Mixin<infer TAdded> ? TAdded : never
-    >
-> {
-  return mixins.reduce((acc, mixin) => mixin(acc), Base) as any;
+interface UnaryFunction<T, R> {
+  (source: T): R;
 }
 
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I,
-) => void
-  ? I
-  : never;
+/**
+ * Compose a class by applying mixins to it.
+ * The code is inspired by https://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/, its
+ * just that I have added the support for static types too.
+ */
+export function compose<T extends Constructor, A>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+): A;
+export function compose<T extends Constructor, A, B>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+  mixinB: UnaryFunction<A, B>,
+): B;
+export function compose<T extends Constructor, A, B, C>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+  mixinB: UnaryFunction<A, B>,
+  mixinC: UnaryFunction<B, C>,
+): C;
+export function compose<T extends Constructor, A, B, C, D>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+  mixinB: UnaryFunction<A, B>,
+  mixinC: UnaryFunction<B, C>,
+  mixinD: UnaryFunction<C, D>,
+): D;
+export function compose<T extends Constructor, A, B, C, D, E>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+  mixinB: UnaryFunction<A, B>,
+  mixinC: UnaryFunction<B, C>,
+  mixinD: UnaryFunction<C, D>,
+  mixinE: UnaryFunction<D, E>,
+): E;
+export function compose<T extends Constructor, A, B, C, D, E, F>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+  mixinB: UnaryFunction<A, B>,
+  mixinC: UnaryFunction<B, C>,
+  mixinD: UnaryFunction<C, D>,
+  mixinE: UnaryFunction<D, E>,
+  mixinF: UnaryFunction<E, F>,
+): F;
+export function compose<T extends Constructor, A, B, C, D, E, F, G>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+  mixinB: UnaryFunction<A, B>,
+  mixinC: UnaryFunction<B, C>,
+  mixinD: UnaryFunction<C, D>,
+  mixinE: UnaryFunction<D, E>,
+  mixinF: UnaryFunction<E, F>,
+  mixinG: UnaryFunction<F, G>,
+): G;
+export function compose<T extends Constructor, A, B, C, D, E, F, G, H>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+  mixinB: UnaryFunction<A, B>,
+  mixinC: UnaryFunction<B, C>,
+  mixinD: UnaryFunction<C, D>,
+  mixinE: UnaryFunction<D, E>,
+  mixinF: UnaryFunction<E, F>,
+  mixinG: UnaryFunction<F, G>,
+  mixinH: UnaryFunction<G, H>,
+): H;
+export function compose<T extends Constructor, A, B, C, D, E, F, G, H, I>(
+  superclass: T,
+  mixin: UnaryFunction<T, A>,
+  mixinB: UnaryFunction<A, B>,
+  mixinC: UnaryFunction<B, C>,
+  mixinD: UnaryFunction<C, D>,
+  mixinE: UnaryFunction<D, E>,
+  mixinF: UnaryFunction<E, F>,
+  mixinG: UnaryFunction<F, G>,
+  mixinH: UnaryFunction<G, H>,
+  mixinI: UnaryFunction<H, I>,
+): I;
+export function compose<
+  T extends Constructor,
+  Mixins extends UnaryFunction<T, T>,
+>(superclass: T, ...mixins: Mixins[]) {
+  return mixins.reduce((c, mixin) => mixin(c), superclass);
+}
