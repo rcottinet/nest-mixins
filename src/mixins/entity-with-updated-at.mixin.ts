@@ -1,5 +1,5 @@
 import { UpdateDateColumn } from 'typeorm';
-import { Constructor, Mixin } from '../utils/compose';
+import { Constructor, Mixin } from '../helpers/compose';
 
 type WithUpdatedAtProps = {
   updatedAt: Date;

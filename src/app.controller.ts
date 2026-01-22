@@ -1,12 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './user.entity';
+import { Repository } from 'typeorm';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    @InjectRepository(User)
+    public repository: Repository<User>,
+  ) {}
 
   @Get()
-  get(): string {
-    return this.appService.getHello();
+  findAll(): Promise<User[]> {
+    return this.repository.find();
   }
 }

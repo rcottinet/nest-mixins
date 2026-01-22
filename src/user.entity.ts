@@ -1,4 +1,4 @@
-import { compose } from '../utils/compose';
+import { compose } from './helpers/compose';
 import { BaseEntity, Entity, PrimaryColumn } from 'typeorm';
 import { WithCreatedAt } from 'src/mixins/entity-with-created-at.mixin';
 import { WithUpdatedAt } from 'src/mixins/entity-with-updated-at.mixin';
